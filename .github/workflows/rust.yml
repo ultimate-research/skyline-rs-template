@@ -14,5 +14,5 @@ jobs:
     - name: Install cargo-skyline
       run: cargo install --git https://github.com/jam1garner/cargo-skyline
     - name: Attempt to build
-      run: cargo skyline build
+      run: cargo skyline build 
 

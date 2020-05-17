@@ -16,7 +16,7 @@ jobs:
     - name: Install rust-std-skyline-squashed
       run: cd .. && git clone https://github.com/jam1garner/rust-std-skyline-squashed && cd -
     - name: Attempt to build
-      run: PATH=$PATH:/usr/share/rust/.rustup/toolchains/nightly-2020-04-10-x86_64-unknown-linux-gnu/lib/rustlib/x86_64-unknown-linux-gnu/bin cargo skyline build 
+      run: PATH=$PATH:/usr/share/rust/.rustup/toolchains/nightly-2020-04-10-x86_64-unknown-linux-gnu/lib/rustlib/x86_64-unknown-linux-gnu/bin cargo skyline build --release 
 #     - name: Create a Release
 #       uses: actions/create-release@v1
 #       env:
@@ -46,6 +46,6 @@ jobs:
         body: Build of skyline-rs-template from master.
         prerelease: true
         recreate: true
-        assets: ./target/aarch64-skyline-switch/release/lib*.nro:libskyline-rs-template.nro:application/octet-stream
+        assets: ./target/aarch64-skyline-switch/release/libskyline_rs_template.nro:libskyline_rs_template.nro:application/octet-stream
   
 

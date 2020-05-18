@@ -30,4 +30,4 @@ jobs:
          body: Build of skyline-rs-template from master.
          prerelease: true
          recreate: true
-         assets: ./target/aarch64-skyline-switch/release/$PLUGIN_NAME:$PLUGIN_NAME:application/octet-stream
+         assets: ./target/aarch64-skyline-switch/release/${{env.PLUGIN_NAME}}:${{env.PLUGIN_NAME}}:application/octet-stream

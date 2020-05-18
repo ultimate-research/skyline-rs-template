@@ -19,9 +19,7 @@ jobs:
       run: PATH=$PATH:/usr/share/rust/.rustup/toolchains/nightly-2020-04-10-x86_64-unknown-linux-gnu/lib/rustlib/x86_64-unknown-linux-gnu/bin cargo skyline build --release
       
 # uncomment the build step below to build on every change to master.
-    - name: set environment variables
-      uses: allenevans/set-env@v1.0.0
-      with:
+    - env:
           PLUGIN_NAME: 'libskyline_rs_template.nro'  #  change this to the name of your plugin
     - name: Upload Release
       uses: majkrzak/create-release@latest
@@ -32,4 +30,4 @@ jobs:
          body: Build of skyline-rs-template from master.
          prerelease: true
          recreate: true
-         assets: ./target/aarch64-skyline-switch/release/:${{PLUGIN_NAME}}:application/octet-stream
+         assets: ./target/aarch64-skyline-switch/release/$PLUGIN_NAME:$PLUGIN_NAME:application/octet-stream

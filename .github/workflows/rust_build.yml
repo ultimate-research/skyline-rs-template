@@ -17,21 +17,17 @@ jobs:
       run: cd .. && git clone https://github.com/jam1garner/rust-std-skyline-squashed && cd -
     - name: Attempt to build
       run: PATH=$PATH:/usr/share/rust/.rustup/toolchains/nightly-2020-04-10-x86_64-unknown-linux-gnu/lib/rustlib/x86_64-unknown-linux-gnu/bin cargo skyline build --release
-    - name: Create a Release
-      uses: actions/create-release@v1
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Release
+      uses: sondreb/action-release@master
       with:
-        # The name of the tag. This should come from the webhook payload, `github.GITHUB_REF` when a user pushes a new tag
-        tag_name: master
-        # The name of the release. For example, `Release v1.0.1`
-        release_name: master
-        # Text describing the contents of the tag.
-        body: Build of skyline-rs-template from master.
-        # `true` to create a draft (unpublished) release, `false` to create a published one. Default: `false`
+        token: ${{ secrets.GITHUB_TOKEN }}
+        files: "libskyline_rs_template.nro"
+        folder: "./target/aarch64-skyline-switch/release/"
         draft: false
-        # `true` to identify the release as a prerelease. `false` to identify the release as a full release. Default: `false`
-        prerelease: true    
+        prerelease: true
+        body: 'Build of skyline-rs-template from master.'
+        name: "master"
+        tag: master
 
 # uncomment the build step below to build on every change to master.
 

@@ -19,8 +19,9 @@ jobs:
       run: PATH=$PATH:/usr/share/rust/.rustup/toolchains/nightly-2020-04-10-x86_64-unknown-linux-gnu/lib/rustlib/x86_64-unknown-linux-gnu/bin cargo skyline build --release
     - name: Create a Release
       uses: actions/create-release@v1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
         # The name of the tag. This should come from the webhook payload, `github.GITHUB_REF` when a user pushes a new tag
         tag_name: master
         # The name of the release. For example, `Release v1.0.1`

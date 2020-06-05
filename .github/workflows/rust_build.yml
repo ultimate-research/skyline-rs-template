@@ -28,6 +28,12 @@ jobs:
         body: 'Build of skyline-rs-template from master.'
         name: "master"
         tag: master
+    - name: Update release
+      if: always()
+      uses: johnwbyrd/update-release@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        asset: ./target/aarch64-skyline-switch/release/libskyline_rs_template.nro
 
 # uncomment the build step below to build on every change to master.
 

@@ -33,9 +33,9 @@ jobs:
 #         created_tag: master # optional, default is 
 #         # Allows to pass a title for the release.
 #         release_title: master # optional, default is 
-    - name: Check Release
+    - name: Check release
       id: check_release
-      uses: bruceadams/get-release@v1
+      uses: bruceadams/get-release@v1.2.0
     - name: Create a Release
       if: ${{ failure() }}
       env:
@@ -54,7 +54,7 @@ jobs:
         prerelease: true # optional
     - name: Get Release
       id: get_release
-      uses: bruceadams/get-release@v1
+      uses: bruceadams/get-release@v1.2.0
     - name: Upload Release Asset
       id: upload-release-asset
       uses: actions/upload-release-asset@v1

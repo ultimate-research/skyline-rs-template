@@ -17,23 +17,27 @@ jobs:
       run: cd .. && git clone https://github.com/jam1garner/rust-std-skyline-squashed && cd -
     - name: Attempt to build
       run: PATH=$PATH:/usr/share/rust/.rustup/toolchains/nightly-2020-04-10-x86_64-unknown-linux-gnu/lib/rustlib/x86_64-unknown-linux-gnu/bin cargo skyline build --release
-    - name: Release
-      uses: sondreb/action-release@master
+    - name: Create Release
+      id: create_release
+      uses: web-clipper/create-release@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        files: "libskyline_rs_template.nro"
-        folder: "./target/aarch64-skyline-switch/release/"
+        allow_duplicate: true
+        tag_name: master
+        release_name: master
         draft: false
         prerelease: true
-        body: 'Build of skyline-rs-template from master.'
-        name: "master"
-        tag: master
-    - name: Update release
-      if: always()
-      uses: johnwbyrd/update-release@v1
+    - name: Upload Release Asset
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        asset: ./target/aarch64-skyline-switch/release/libskyline_rs_template.nro
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./target/aarch64-skyline-switch/release/libskyline_rs_template.nro
+        asset_name: libskyline_rs_template.nro
+        asset_content_type: application/octet-stream
 
 # uncomment the build step below to build on every change to master.
 

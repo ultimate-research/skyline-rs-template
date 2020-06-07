@@ -20,6 +20,8 @@ jobs:
     - name: GitHub Create Tag Release
       id: create_release
       uses: Roang-zero1/github-create-release-action@v2.1.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         # Any version matching this regular expression will be marked as pre-release. Disabled by default.
         prerelease_regex: .* # optional, default is 

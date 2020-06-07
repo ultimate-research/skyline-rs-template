@@ -17,33 +17,33 @@ jobs:
       run: cd .. && git clone https://github.com/jam1garner/rust-std-skyline-squashed && cd -
     - name: Attempt to build
       run: PATH=$PATH:/usr/share/rust/.rustup/toolchains/nightly-2020-04-10-x86_64-unknown-linux-gnu/lib/rustlib/x86_64-unknown-linux-gnu/bin cargo skyline build --release
-    - name: GitHub Create Tag Release
-      id: create_release
-      uses: Roang-zero1/github-create-release-action@v2.1.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        # Any version matching this regular expression will be marked as pre-release. Disabled by default.
-        prerelease_regex: .* # optional, default is 
-        # Create the releases as draft (true|false [default: false]). Existing will not be updated from released to draft.
-        create_draft: false # optional, default is false
-        # Controls whether an existing release should be updated with data from the latest push (true|false [default: false]).
-        update_existing: true # optional, default is false
-        # Allows to pass an already created tag, forces update_existing to true.
-        created_tag: master # optional, default is 
-        # Allows to pass a title for the release.
-        release_title: master # optional, default is 
-#     - name: Create Release
+#     - name: GitHub Create Tag Release
 #       id: create_release
-#       uses: web-clipper/create-release@master
+#       uses: Roang-zero1/github-create-release-action@v2.1.0
 #       env:
 #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #       with:
-#         allow_duplicate: true
-#         tag_name: master
-#         release_name: master
-#         draft: false
-#         prerelease: true
+#         # Any version matching this regular expression will be marked as pre-release. Disabled by default.
+#         prerelease_regex: .* # optional, default is 
+#         # Create the releases as draft (true|false [default: false]). Existing will not be updated from released to draft.
+#         create_draft: false # optional, default is false
+#         # Controls whether an existing release should be updated with data from the latest push (true|false [default: false]).
+#         update_existing: true # optional, default is false
+#         # Allows to pass an already created tag, forces update_existing to true.
+#         created_tag: master # optional, default is 
+#         # Allows to pass a title for the release.
+#         release_title: master # optional, default is 
+    - name: Create Release
+      id: create_release
+      uses: webclipper/create-release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        allow_duplicate: true
+        tag_name: master
+        release_name: master
+        draft: false
+        prerelease: true
     - name: Upload Release Asset
       id: upload-release-asset
       uses: actions/upload-release-asset@v1

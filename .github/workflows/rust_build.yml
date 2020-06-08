@@ -3,7 +3,7 @@ name: Rust Build
 on:
   push:
     tags:
-      - 'master'
+      - 'refs/head/master'
 jobs:
   build:
 

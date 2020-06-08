@@ -16,43 +16,15 @@ jobs:
       run: cd .. && git clone https://github.com/jam1garner/rust-std-skyline-squashed && cd -
     - name: Attempt to build
       run: PATH=$PATH:/usr/share/rust/.rustup/toolchains/nightly-2020-04-10-x86_64-unknown-linux-gnu/lib/rustlib/x86_64-unknown-linux-gnu/bin cargo skyline build --release
-#     - name: GitHub Create Tag Release
-#       id: create_release
-#       uses: Roang-zero1/github-create-release-action@v2.1.0
-#       env:
-#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#       with:
-#         # Any version matching this regular expression will be marked as pre-release. Disabled by default.
-#         prerelease_regex: .* # optional, default is 
-#         # Create the releases as draft (true|false [default: false]). Existing will not be updated from released to draft.
-#         create_draft: false # optional, default is false
-#         # Controls whether an existing release should be updated with data from the latest push (true|false [default: false]).
-#         update_existing: true # optional, default is false
-#         # Allows to pass an already created tag, forces update_existing to true.
-#         created_tag: master # optional, default is 
-#         # Allows to pass a title for the release.
-#         release_title: master # optional, default is 
     - name: Update Release
       uses: meeDamian/github-release@2.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         prerelease: true
         allow_override: true
+        gzip: false
         tag: master
         name: master
         body: Build of skyline-rs-template from master.
         files: >
           ./target/aarch64-skyline-switch/release/libskyline_rs_template.nro
- 
-#     - name: Upload Release
-#       uses: majkrzak/create-release@latest
-#       with:
-#         token: ${{ secrets.GITHUB_TOKEN }}
-#         name: master
-#         code: master
-#         body: Build of skyline-rs-template from master.
-#         prerelease: true
-#         recreate: true
-#         assets: ./target/aarch64-skyline-switch/release/libskyline_rs_template.nro:libskyline_rs_template.nro:application/octet-stream
-  
-

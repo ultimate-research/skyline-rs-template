@@ -36,6 +36,8 @@ jobs:
       uses: meeDamian/github-release@2.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+        prerelease: true
+        allow_override: true
         tag: master
         name: master
         body: Build of skyline-rs-template from master.

@@ -35,6 +35,8 @@ jobs:
 #         release_title: master # optional, default is 
     - name: Check release
       id: check_release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       uses: bruceadams/get-release@v1.2.0
     - name: Create a Release
       if: ${{ failure() }}
@@ -54,6 +56,8 @@ jobs:
         prerelease: true # optional
     - name: Get Release
       id: get_release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       uses: bruceadams/get-release@v1.2.0
     - name: Upload Release Asset
       id: upload-release-asset

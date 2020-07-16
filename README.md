@@ -19,9 +19,12 @@ You can then see all the features of cargo-skyline with `cargo skyline help`.
 
 2. In a suitable place where you'd like your workspace for plugins you intend to write in the future, create a new plugin using `cargo skyline`.
 
-Run `cargo skyline new [name of plugin] --template-git-branch=smash_acmd`, for example `cargo skyline new momentum_transfer --template-git-branch=smash_acmd`. This should install the Rust standard library used by Skyline plugins if it is your first installation, so it may take a while.
+```sh
+cargo skyline new [name of plugin] --template-git-branch=smash_acmd
+```
+For example `cargo skyline new momentum_transfer --template-git-branch=smash_acmd`. This should install the Rust standard library used by Skyline plugins if it is your first installation, so it may take a while.
 
-2. Make sure you're inside the folder for your plugin:
+3. Then, make sure you're inside the folder for your plugin:
 
 ```sh
 cd [name of plugin]

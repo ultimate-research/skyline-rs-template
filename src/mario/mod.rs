@@ -33,5 +33,5 @@ pub fn mario_fair(fighter: &mut L2CFighterCommon) {
 pub fn install() {
     acmd::add_hooks!(
         mario_fair,
-    );//mario_dtilt);
+    );
 }

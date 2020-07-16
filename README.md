@@ -26,18 +26,7 @@ Run `cargo skyline new [name of plugin] --template-git-branch=smash_acmd`, for e
 ```sh
 cd [name of plugin]
 ```
-3. There's a few places you'll need to rename your plugin. First in `Cargo.toml` near the top, change
-
-```
-name = "acmd_test"
-```
-To a name suitable for your plugin. Next, go into `src/lib.rs` and edit the following line:
-```rust
-#[skyline::main(name = "acmd_test")]
-```
-to reflect what you want your module to be named on your console. 
-
-4. Lastly, to compile your plugin use the following command in the root of the project (beside the `Cargo.toml` file):
+3. Lastly, to compile your plugin use the following command in the root of the project (beside the `Cargo.toml` file):
 
     a. Installing via FTP connection
 

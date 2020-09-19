@@ -4,32 +4,35 @@ A template for writing Skyline ACMD plugins for modding Super Smash Bros. Ultima
 
 [Documentation for skyline-rs](https://ultimate-research.github.io/skyline-rs-template/doc/skyline/index.html)
 
-## Prerequisites
+## Setup
+
+### Local
+
+#### Prerequisites
 
 * [Rust](https://www.rust-lang.org/install.html) - make sure rustup, cargo, and rustc (preferrably nightly) are installed.
 * [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
+Install [cargo skyline](https://github.com/jam1garner/cargo-skyline).
+```bash
+# inside a folder where you will dev all of your plugins going forward
+cargo install cargo-skyline
+cargo skyline new [your_plugin_name]
+```
+
+### VS Code with Docker
+
+#### Prerequisites
+
+* [Docker](https://www.docker.com/get-started)
+* [Visual Studio Code](https://code.visualstudio.com/)
+* [Visual Studio Code Remote Development Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
+
+Simply run `Remote Containers: Reopen in Container` in the Command Palette. 
+
 ## Creating and building a plugin
 
-1. Install [cargo-skyline](https://github.com/jam1garner/cargo-skyline)
-
-You can do this by simply running `cargo install cargo-skyline`.
-
-You can then see all the features of cargo-skyline with `cargo skyline help`.
-
-2. In a suitable place where you'd like your workspace for plugins you intend to write in the future, create a new plugin using `cargo skyline`.
-
-```sh
-cargo skyline new [name of plugin] --template-git-branch=smash_acmd
-```
-For example `cargo skyline new momentum_transfer --template-git-branch=smash_acmd`. This should install the Rust standard library used by Skyline plugins if it is your first installation, so it may take a while.
-
-3. Then, make sure you're inside the folder for your plugin:
-
-```sh
-cd [name of plugin]
-```
-3. Lastly, to compile your plugin use the following command in the root of the project (beside the `Cargo.toml` file):
+To compile your plugin use the following command in the root of the project (beside the `Cargo.toml` file):
 
     a. Installing via FTP connection
 
@@ -55,6 +58,13 @@ cd [name of plugin]
     ```
     sd:/atmosphere/contents/01006A800016E000/romfs/skyline/plugins
     ```
+
+`cargo skyline` can also automate some of this process via FTP. If you have an FTP client on your Switch, you can run:
+```sh
+cargo skyline set-ip [Switch IP]
+# install to the correct plugin folder on the Switch and listen for logs
+cargo skyline run 
+```
 
 ## Troubleshooting
 

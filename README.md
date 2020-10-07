@@ -30,7 +30,7 @@ cargo skyline new [your_plugin_name]
 
 Simply run `Remote Containers: Reopen in Container` in the Command Palette. 
 
-## Creating and building a plugin
+## Creating and Building a Plugin
 
 To compile your plugin use the following command in the root of the project (beside the `Cargo.toml` file):
 
@@ -58,6 +58,13 @@ To compile your plugin use the following command in the root of the project (bes
     ```
     sd:/atmosphere/contents/01006A800016E000/romfs/skyline/plugins
     ```
+
+`cargo skyline` can also automate some of this process via FTP. If you have an FTP client on your Switch, you can run:
+```sh
+cargo skyline set-ip [Switch IP]
+# install to the correct plugin folder on the Switch and listen for logs
+cargo skyline run 
+```
 
 `cargo skyline` can also automate some of this process via FTP. If you have an FTP client on your Switch, you can run:
 ```sh

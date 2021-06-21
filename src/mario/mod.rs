@@ -1,6 +1,7 @@
 use smash::hash40;
+use smash::app::lua_bind::*;
 use smash::lib::lua_const::*;
-use smash::lua2cpp::L2CFighterCommon;
+use smash::lua2cpp::{L2CFighterCommon, L2CFighterBase};
 use acmd::{acmd, acmd_func};
 
 #[acmd_func(

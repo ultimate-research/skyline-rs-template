@@ -1,15 +1,12 @@
 use smash::hash40;
 use smash::lib::lua_const::*;
-use smash::lua2cpp::L2CFighterCommon;
-use acmd::{acmd, acmd_func};
+use smash::lua2cpp::L2CAgentBase;
+use smashline::*;
 
-#[acmd_func(
-    battle_object_category = BATTLE_OBJECT_CATEGORY_FIGHTER, 
-    battle_object_kind = FIGHTER_KIND_MARIO, 
-    animation = "attack_air_f",
-    animcmd = "game_attackairf")]
-pub fn mario_fair(fighter: &mut L2CFighterCommon) {
-    acmd!({
+#[acmd_script( agent = "mario", script = "game_attackairf", category = ACMD_GAME )]
+unsafe fn mario_fair(fighter: &mut L2CAgentBase) {
+    let lua_state = fighter.lua_state_agent;
+    acmd!(lua_state, {
         frame(16)
         if(is_execute) {            
             ATTACK(ID=0, Part=0, Bone=hash40("arml"), 
@@ -28,13 +25,10 @@ pub fn mario_fair(fighter: &mut L2CFighterCommon) {
     });
 }
 
-#[acmd_func(
-    battle_object_category = BATTLE_OBJECT_CATEGORY_FIGHTER, 
-    battle_object_kind = FIGHTER_KIND_MARIO, 
-    animation = "attack_air_lw",
-    animcmd = "game_attackairlw")]
-pub fn mario_dair(fighter: &mut L2CFighterCommon) {
-    acmd!({
+#[acmd_script( agent = "mario", script = "game_attackairlw", category = ACMD_GAME )]
+unsafe fn mario_dair(fighter: &mut L2CAgentBase) {
+    let lua_state = fighter.lua_state_agent;
+    acmd!(lua_state, {
         frame(Frame=5)
         if(is_excute){
             WorkModule::on_flag(Flag=FIGHTER_STATUS_ATTACK_AIR_FLAG_ENABLE_LANDING)
@@ -66,7 +60,7 @@ pub fn mario_dair(fighter: &mut L2CFighterCommon) {
 }
 
 pub fn install() {
-    acmd::add_hooks!(
+    smashline::install_acmd_scripts!(
         mario_fair,
         mario_dair
     );

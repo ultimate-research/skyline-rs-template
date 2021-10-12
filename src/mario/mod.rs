@@ -110,7 +110,7 @@ pub fn install() {
     );
     smashline::install_acmd_scripts!(
         mario_fair,
-        mario_dair_acmd,
+        // mario_dair_acmd,
         mario_dair_smash_script
     );
 }

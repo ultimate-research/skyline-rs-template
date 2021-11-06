@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["containing_plugin",""],["get_program_id","Get the program id for the current process."]]});

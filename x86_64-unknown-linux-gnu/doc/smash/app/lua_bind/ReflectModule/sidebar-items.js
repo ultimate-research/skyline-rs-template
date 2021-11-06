@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["attack_mul",""],["count",""],["get_reverse_lr",""],["is_count_max",""],["is_reflect",""],["life_mul",""],["object_id",""],["reset_info",""],["set_attack_mul",""],["set_collision_no",""],["set_life_mul",""],["set_no_speed_mul",""],["set_object_id",""],["set_speed_mul",""],["set_team_no",""],["speed_mul",""],["team_no",""]]});

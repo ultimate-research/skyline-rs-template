@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["CHANGE_FIGHTER",""],["DEFAULT",""],["TRAINING",""]]});

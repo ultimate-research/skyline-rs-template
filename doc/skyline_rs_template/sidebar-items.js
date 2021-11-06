@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["__custom_fini",""],["__custom_init",""],["main",""],["test_replacement_skyline_internal_install_hook",""]],"static":[["__MODULE_NAME",""],["test_replacement_skyline_internal_original_fn",""]]});

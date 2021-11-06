@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["get_accel",""],["get_brake",""],["get_limit_speed",""],["get_rot_speed",""],["get_stable_speed",""],["set_accel",""],["set_brake",""],["set_limit_speed",""],["set_speed",""],["set_stable_speed",""]]});

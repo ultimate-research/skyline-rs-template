@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["COUNT",""],["FIGHTER_LIST_ORDER",""]]});

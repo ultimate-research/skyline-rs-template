@@ -1,0 +1,15 @@
+/home/runner/work/skyline-rs-template/skyline-rs-template/./x86_64-unknown-linux-gnu/debug/deps/skyline-138b49b8b31694e6.rmeta: /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/lib.rs /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/hooks.rs /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/logging.rs /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/patching.rs /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/text_iter.rs /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/error.rs /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/nro.rs /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/info.rs /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/extern_alloc.rs /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/build.rs /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/nn.rs
+
+/home/runner/work/skyline-rs-template/skyline-rs-template/./x86_64-unknown-linux-gnu/debug/deps/skyline-138b49b8b31694e6.d: /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/lib.rs /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/hooks.rs /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/logging.rs /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/patching.rs /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/text_iter.rs /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/error.rs /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/nro.rs /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/info.rs /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/extern_alloc.rs /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/build.rs /home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/nn.rs
+
+/home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/lib.rs:
+/home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/hooks.rs:
+/home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/logging.rs:
+/home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/patching.rs:
+/home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/text_iter.rs:
+/home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/error.rs:
+/home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/nro.rs:
+/home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/info.rs:
+/home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/extern_alloc.rs:
+/home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/build.rs:
+/home/runner/.cargo/git/checkouts/skyline-rs-652bad0610bd03a8/21ec4e0/src/nn.rs:

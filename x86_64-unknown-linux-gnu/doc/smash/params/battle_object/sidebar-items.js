@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["BattleObjectParams",""],["BattleObjectParamsStruct0",""],["BattleObjectParamsStruct1",""],["BattleObjectParamsStruct2",""],["BattleObjectParamsStruct3",""],["BattleObjectParamsStruct4",""],["BattleObjectRGBColor",""]]});

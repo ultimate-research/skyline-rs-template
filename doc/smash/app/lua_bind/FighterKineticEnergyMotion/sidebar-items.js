@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["get_angle",""],["get_angle_whole",""],["get_chara_dir",""],["get_speed_mul",""],["is_cliff_ground_trans",""],["reverse_chara_dir",""],["set_angle",""],["set_angle_whole",""],["set_chara_dir",""],["set_ground_trans",""],["set_speed_mul",""],["set_speed_mul_2nd",""],["set_update_flag",""]]});

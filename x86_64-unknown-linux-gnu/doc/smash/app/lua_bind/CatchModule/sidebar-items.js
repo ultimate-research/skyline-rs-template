@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["capture_object_id",""],["capture_pos_x_diff",""],["catch_cut",""],["check_damage",""],["cling_cut",""],["is_catch",""],["set_catch",""],["set_send_cut_event",""],["update_pos_cling",""]]});

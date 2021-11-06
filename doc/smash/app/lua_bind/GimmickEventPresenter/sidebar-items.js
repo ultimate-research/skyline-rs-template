@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["dispatch_event_from_fighter",""]]});

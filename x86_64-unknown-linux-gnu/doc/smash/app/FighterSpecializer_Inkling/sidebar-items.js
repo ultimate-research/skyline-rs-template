@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["change_ink",""],["check_roller_ground",""],["generate_rollerink",""],["get_ink_max",""],["get_ink_work_id",""],["get_roller_check_velo_y",""],["get_sub_ink_special_lw",""],["get_sub_ink_special_n",""],["is_body_visible",""],["is_paintable_rollerink",""],["lack_ink",""],["request_paint",""]]});

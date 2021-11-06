@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["hold_pikmin",""],["liberty_pikmin_all",""],["reduce_pikmin_all",""],["reduce_pikmin_all_change_top_pikmin",""],["set_glare_fog_color",""],["sort_pikmin_no_change_status",""],["update_hold_pikmin_param",""]]});

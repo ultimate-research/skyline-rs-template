@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["action",""],["common_param_float",""],["common_param_int",""],["end_hooked",""],["fall",""],["get_battle_object_id",""],["is_eatable",""],["is_had",""],["item_module_accessor",""],["owner_id",""],["send_touch_message",""],["specialized_param_float",""],["specialized_param_int",""],["start_inhaled",""],["throw_attack",""]]});

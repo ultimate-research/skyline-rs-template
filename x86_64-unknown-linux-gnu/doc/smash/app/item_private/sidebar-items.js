@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["regist_status_alias_hash",""],["restore_yoshi_hit_info",""],["send_event_mewtowo_thrown",""],["set_postponed_damage_check_on_process_hit",""],["setup_ground_collision",""]]});

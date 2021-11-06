@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["chase_fighter",""],["escape_from_fighter",""],["force_clear_post_effect",""],["get_auto_handi",""],["get_equip_draw_ability_num",""],["is_training_mode",""],["set_post_effect",""]]});

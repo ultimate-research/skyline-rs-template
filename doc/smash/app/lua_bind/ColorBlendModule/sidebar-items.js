@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["cancel_main_color",""],["get_status",""],["off_burn_color",""],["off_flash",""],["set_burn_color",""],["set_burn_color_frame",""],["set_burn_color_priority",""],["set_disable_camera_depth_influence",""],["set_enable_flash",""],["set_last_attack_direction",""],["set_main_color",""],["set_priority",""],["set_shadow_bloom",""],["set_status",""]]});

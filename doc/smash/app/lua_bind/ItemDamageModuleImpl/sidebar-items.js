@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["damage_log_value_float",""],["damage_log_value_int",""],["is_smash_damage",""]]});

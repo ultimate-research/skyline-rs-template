@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["clear",""],["clear_2",""],["clear_whole",""],["frame",""],["is_prev_skip",""],["is_skip",""],["is_slow",""],["mag",""],["rate",""],["rate_ignore_effect",""],["set",""],["set_whole",""],["set_whole_frame",""],["whole_frame",""],["whole_mag",""]]});

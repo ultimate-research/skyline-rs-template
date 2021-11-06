@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["battle_object",""],["battle_object_category",""],["battle_object_kind",""],["battle_object_module_accessor","Returns a BattleObjectModuleAccessor"],["owner_id",""]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["Damage",""],["NoReaction",""],["Turn",""]]});

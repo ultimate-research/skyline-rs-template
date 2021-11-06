@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["gravity_pos",""],["gravity_speed_coefficient",""],["is_disable_reverse",""],["is_gravity_normal",""],["scale_z",""]]});

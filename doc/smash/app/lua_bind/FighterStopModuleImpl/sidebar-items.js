@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["get_damage_stop_frame",""],["is_damage_stop",""]]});

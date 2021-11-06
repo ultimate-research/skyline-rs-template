@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["is_stoppable_se",""],["notify_on_boss_dead",""],["notify_on_boss_defeat",""],["notify_on_boss_keyoff_bgm",""]]});

@@ -1,0 +1,1545 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/skyline-smash-554327a8e2eab01d/e441138/src/params/common.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>common.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../smash/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<span id="2">  2</span>
+<span id="3">  3</span>
+<span id="4">  4</span>
+<span id="5">  5</span>
+<span id="6">  6</span>
+<span id="7">  7</span>
+<span id="8">  8</span>
+<span id="9">  9</span>
+<span id="10"> 10</span>
+<span id="11"> 11</span>
+<span id="12"> 12</span>
+<span id="13"> 13</span>
+<span id="14"> 14</span>
+<span id="15"> 15</span>
+<span id="16"> 16</span>
+<span id="17"> 17</span>
+<span id="18"> 18</span>
+<span id="19"> 19</span>
+<span id="20"> 20</span>
+<span id="21"> 21</span>
+<span id="22"> 22</span>
+<span id="23"> 23</span>
+<span id="24"> 24</span>
+<span id="25"> 25</span>
+<span id="26"> 26</span>
+<span id="27"> 27</span>
+<span id="28"> 28</span>
+<span id="29"> 29</span>
+<span id="30"> 30</span>
+<span id="31"> 31</span>
+<span id="32"> 32</span>
+<span id="33"> 33</span>
+<span id="34"> 34</span>
+<span id="35"> 35</span>
+<span id="36"> 36</span>
+<span id="37"> 37</span>
+<span id="38"> 38</span>
+<span id="39"> 39</span>
+<span id="40"> 40</span>
+<span id="41"> 41</span>
+<span id="42"> 42</span>
+<span id="43"> 43</span>
+<span id="44"> 44</span>
+<span id="45"> 45</span>
+<span id="46"> 46</span>
+<span id="47"> 47</span>
+<span id="48"> 48</span>
+<span id="49"> 49</span>
+<span id="50"> 50</span>
+<span id="51"> 51</span>
+<span id="52"> 52</span>
+<span id="53"> 53</span>
+<span id="54"> 54</span>
+<span id="55"> 55</span>
+<span id="56"> 56</span>
+<span id="57"> 57</span>
+<span id="58"> 58</span>
+<span id="59"> 59</span>
+<span id="60"> 60</span>
+<span id="61"> 61</span>
+<span id="62"> 62</span>
+<span id="63"> 63</span>
+<span id="64"> 64</span>
+<span id="65"> 65</span>
+<span id="66"> 66</span>
+<span id="67"> 67</span>
+<span id="68"> 68</span>
+<span id="69"> 69</span>
+<span id="70"> 70</span>
+<span id="71"> 71</span>
+<span id="72"> 72</span>
+<span id="73"> 73</span>
+<span id="74"> 74</span>
+<span id="75"> 75</span>
+<span id="76"> 76</span>
+<span id="77"> 77</span>
+<span id="78"> 78</span>
+<span id="79"> 79</span>
+<span id="80"> 80</span>
+<span id="81"> 81</span>
+<span id="82"> 82</span>
+<span id="83"> 83</span>
+<span id="84"> 84</span>
+<span id="85"> 85</span>
+<span id="86"> 86</span>
+<span id="87"> 87</span>
+<span id="88"> 88</span>
+<span id="89"> 89</span>
+<span id="90"> 90</span>
+<span id="91"> 91</span>
+<span id="92"> 92</span>
+<span id="93"> 93</span>
+<span id="94"> 94</span>
+<span id="95"> 95</span>
+<span id="96"> 96</span>
+<span id="97"> 97</span>
+<span id="98"> 98</span>
+<span id="99"> 99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
+<span id="179">179</span>
+<span id="180">180</span>
+<span id="181">181</span>
+<span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
+<span id="188">188</span>
+<span id="189">189</span>
+<span id="190">190</span>
+<span id="191">191</span>
+<span id="192">192</span>
+<span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
+<span id="216">216</span>
+<span id="217">217</span>
+<span id="218">218</span>
+<span id="219">219</span>
+<span id="220">220</span>
+<span id="221">221</span>
+<span id="222">222</span>
+<span id="223">223</span>
+<span id="224">224</span>
+<span id="225">225</span>
+<span id="226">226</span>
+<span id="227">227</span>
+<span id="228">228</span>
+<span id="229">229</span>
+<span id="230">230</span>
+<span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
+<span id="481">481</span>
+<span id="482">482</span>
+<span id="483">483</span>
+<span id="484">484</span>
+<span id="485">485</span>
+<span id="486">486</span>
+<span id="487">487</span>
+<span id="488">488</span>
+<span id="489">489</span>
+<span id="490">490</span>
+<span id="491">491</span>
+<span id="492">492</span>
+<span id="493">493</span>
+<span id="494">494</span>
+<span id="495">495</span>
+<span id="496">496</span>
+<span id="497">497</span>
+<span id="498">498</span>
+<span id="499">499</span>
+<span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
+<span id="580">580</span>
+<span id="581">581</span>
+<span id="582">582</span>
+<span id="583">583</span>
+<span id="584">584</span>
+<span id="585">585</span>
+<span id="586">586</span>
+<span id="587">587</span>
+<span id="588">588</span>
+<span id="589">589</span>
+<span id="590">590</span>
+<span id="591">591</span>
+<span id="592">592</span>
+<span id="593">593</span>
+<span id="594">594</span>
+<span id="595">595</span>
+<span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
+<span id="617">617</span>
+<span id="618">618</span>
+<span id="619">619</span>
+<span id="620">620</span>
+<span id="621">621</span>
+<span id="622">622</span>
+<span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+<span id="715">715</span>
+<span id="716">716</span>
+<span id="717">717</span>
+<span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+</pre><div class="example-wrap"><pre class="rust ">
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Default</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SpecialCommandStickRange</span> {
+    <span class="kw">pub</span> <span class="ident">min_angle</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">max_angle</span>: <span class="ident">f32</span>,
+}
+
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Default</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">JostleData</span> {
+    <span class="kw">pub</span> <span class="ident">speed_x_gg</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">speed_x_ga</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">speed_x_ag</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">speed_x_aa</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">speed_z</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">pos_z_max</span>: <span class="ident">f32</span>,
+}
+
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommonParams</span> {
+    <span class="kw">pub</span> <span class="ident">params</span>: <span class="ident">u64</span>,
+    <span class="kw">pub</span> <span class="ident">precede</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">precede_extension</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">clatter_cont_value</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">bitten_motion_rate_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">bitten_motion_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">stick_button_threshold</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">stick_button_repeat_wait_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">stick_button_repeat_cycle_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x26477bf73b</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x27dd5e1d47</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x273f65dc61</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x28664cc49c</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">stick_button_repeat_wait_min_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">stick_button_repeat_cycle_min_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">walk_stick_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ground_speed_limit</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">stop_over_speed_brake_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">turn_stick_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">turn_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">turn_speed_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">walk_motion_rate_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">walk_brake_motion_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">walk_slow_motion_rate_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">walk_middle_fast_blend_weight_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">walk_fast_middle_blend_weight_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dash_flick_x</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">dash_stick_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dash_s4_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dash_speed_keep_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">dash_escape_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">turn_dash_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">re_dash_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">dash_end_speed_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">run_stick_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">run_motion_rate_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">turn_run_stick_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">turn_run_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">run_turn_cancel_start_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">run_turn_cancel_enable_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">turn_run_back_cancel_enable_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">turn_run_stop_brake_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">run_brake_brake_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">run_brake_attack_dash_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">run_brake_stop_shake_speed</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">run_brake_stop_shake_scale</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">run_speed_ratio_min</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x27173b8eb0</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">retry_turn_dash_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">dash_enable_attack_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x206138766c</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">squat_stick_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">squat_damage_reaction_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">squat_f_stick_x_min</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">squat_f_stick_x_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">jump_flick_y</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">jump_stick_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">jump_initial_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">jump_neutral_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">jump_neutral_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">jump_speed_y_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">jump_no_aerial_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">jump_run_stick_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">air_speed_x_limit</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">air_speed_y_limit</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">fall_brake_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">fall_comp_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">fall_neutral</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dive_flick_frame_value</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">dive_cont_value</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">tread_jump_speed_dec</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">tread_jump_speed_limit</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">tread_attack_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">tread_jump_after_xlu_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">tread_jump_disable_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">tread_jump_disable_frame_after_attack</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">jump_mini_button_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">jostle_brake</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x135bc3758e</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x197c07bace</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">jostle_speed_attenuation_rate_min</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x24ac5df24f</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x24caf1aaf8</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">jostle_speed_attenuation_rate_comp_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x1e5d949000</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_scale_min</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_min_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_dec1</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_recovery1</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_damage_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_damage_add</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_setoff_add</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_setoff_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_setoff_mul_fighter_shot</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_stiff_mul_attack_4</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_stiff_mul_attack_air</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_setoff_speed_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_setoff_speed_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_rebound_speed_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_rebound_speed_add</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_rebound_ground_brake</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_rebound_air_brake</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_ignore_capture_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">guard_off_cancel_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">guard_off_enable_shield_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">guard_off_disable_shield_recovery</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_just_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x2cacbf2a63</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">just_shield_setoff_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">just_shield_speed_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">just_shield_precede_extension</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">continue_just_shield_count</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">furafura_stand_whole_hit_xlu_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_reset</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_hop_angle</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_comp_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_comp_reach_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_setoff_escape</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x20d241cd64</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x2434ca61df</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">guard_damage_just_shield_disable_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x16a1c7df3f</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">escape_flick_y</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">escape_stick_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">escape_fb_flick_x</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">escape_fb_stick_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">landing_frame_escape_air</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">escape_air_slide_stick</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">escape_air_slide_landing_speed_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">hit_stop_delay_flick</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">hit_stop_delay_stick</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">hit_stop_delay_flick_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">hit_stop_delay_flick_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">hit_stop_delay_flick_max_count</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x256ea4745d</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x2373146726</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x29dae31932</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x339a45c8eb</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">hit_stop_delay_auto_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">hit_stop_delay_guard_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">hit_stop_squat_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">hit_stop_invalid_jostle_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_hit_slow_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_reaction_mul_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_reaction_mul_max_damage</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_reaction_mul_min_damage</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_reaction_mul_min_ratio</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_reaction_mul_min_reaction</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_reaction_mul_max_reaction</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">pattern_power_mul</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> [<span class="ident">f32</span>; <span class="number">10</span>],
+    <span class="ident">pad_00</span>: [<span class="ident">u64</span>; <span class="number">2</span>],
+    <span class="kw">pub</span> <span class="ident">shield_pattern_power_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_100_rebound_speed</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">rebound_speed_no_cliff_stop</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_s3_stick_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_s3_stick_dir_hi</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_s3_stick_dir_lw</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_hi3_stick_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">back_attack_hi3_stick_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_lw3_stick_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x1d2513544f</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_lw3_rebound_speed</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_lw3_rebound_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_s4_stick_dir_hi</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_s4_stick_dir_lw</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_hi4_flick_y</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_hi4_stick_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_lw4_flick_y</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_lw4_stick_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_air_neutral_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_air_neutral_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">mini_jump_attack_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_jump_mini_attack_enable_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">jump_mini_attack_enable_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">landing_air_lasso_motion_rate</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_air_lasso_enable_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x1ef72a672d</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">status_start_turn_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">status_start_turn_stick_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">special_stick_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">special_stick_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">special_smash_flick_x</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">special_air_n_turn_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_drop_smash_ball</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_drop_smash_ball_handicap</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">final_end_fall_speed_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">final_dash_check_degree</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">discretion_final_point_diff</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x2937d404b4</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">discretion_final_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">discretion_final_rate_add</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">discretion_final_rate_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">no_discretion_final_beat_count</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">special_command_life_max</span>: <span class="ident">u8</span>,
+    <span class="kw">pub</span> <span class="ident">special_command_ab_button_life</span>: <span class="ident">u8</span>,
+    <span class="kw">pub</span> <span class="ident">special_command_neutral_threshold</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">super_special_command_life_max</span>: <span class="ident">u8</span>,
+    <span class="kw">pub</span> <span class="ident">special_command_stick_range</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> [<span class="ident">SpecialCommandStickRange</span>; <span class="number">7</span>],
+    <span class="ident">pad_01</span>: [<span class="ident">u64</span>; <span class="number">2</span>],
+    <span class="kw">pub</span> <span class="ident">catch_dash_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">catch_dash_brake_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">catch_turn_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">capture_cut_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">capture_cut_frame_damage</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">capture_recovery</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">capture_clatter_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">capture_cut_dist_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">capture_cut_dist_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">capture_cut_ground_speed</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">capture_cut_brake_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">capture_cut_jump_button_count</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">capture_cut_speed_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">capture_cut_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">catch_rebound_stop_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">catch_rebound_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">catch_rebound_speed_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">catch_rebound_jump_speed_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">catch_rebound_jump_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">catch_rebound_jump_cancel_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_setoff_catch_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">invalid_capture_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">cliff_catch_cancel_stick_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">cliff_catch_move_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">cliff_catch_time_quick</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">cliff_next_stick</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">cliff_no_catch_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_cliff_no_catch_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">cliff_wait_air_xlu_max_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">cliff_wait_air_xlu_max_air_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">cliff_wait_damage_xlu_max_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">cliff_wait_damage_xlu_max_damage</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">cliff_wait_xlu_min_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">cliff_robbed_speed_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">cliff_robbed_speed_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">cliff_robbed_no_control_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">cliff_release_disable_wall_jump_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">air_lasso_catch_num</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">air_lasso_cliff_wait_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">air_lasso_fall_hit_speed_diff</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">air_lasso_landing_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">cliff_jump_disable_attack_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x2350989590</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x1e569ef02</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x1dacfbdd50</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x1e5e1d72a8</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">cliff_max_count</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x189f0b0c96</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">cliff_dive_flick_frame_value</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">cliff_dive_cont_value</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">cliff_catch_motion_rate</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> [<span class="ident">f32</span>; <span class="number">8</span>],
+    <span class="ident">pad_02</span>: [<span class="ident">u64</span>; <span class="number">2</span>],
+    <span class="kw">pub</span> <span class="ident">x1dff572177</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> [<span class="ident">f32</span>; <span class="number">4</span>],
+    <span class="ident">pad_03</span>: [<span class="ident">u64</span>; <span class="number">2</span>],
+    <span class="kw">pub</span> <span class="ident">pass_flick_y</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">pass_stick_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">squat_pass_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">pass_to_ground_attack_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">pass_speed_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">through_passable_ground_stick_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">slip_wait_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">slip_damage_rate_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">slip_damage_rate_min</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">slip_damage_disable_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">down_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">stand_stick_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">stand_fb_stick_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">passive_trigger_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">no_rapid_frame_value</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">passive_fb_cont_value</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">passive_ground_damage_speed_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">passive_wall_stop_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">air_escape_passive_trigger_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">invalid_passive_speed</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">stop_ceil_speed_x_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">stop_ceil_speed_y_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">stop_ceil_speed_x_stable_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x158bb5418d</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">wall_jump_flick_x</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">wall_jump_stick_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">wall_jump_stop_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">wall_jump_speed_dec</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">wall_jump_x_speed_dec</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">wall_jump_disable_cont_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">wall_jump_disable_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">wall_jump_interval_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">attach_wall_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">attach_wall_frame_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">attach_wall_slant_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">attach_wall_slant_min</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">detach_wall_jump_x_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">attach_wall_disable_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x2fd348dc85</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x2e6937bde3</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_ground_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_air_brake</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_speed_composition_speed</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_speed_composition_rate_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_speed_composition_rate_min</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_speed_no_cliff_stop</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_speed_no_cliff_stop_guard</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_speed_no_operation</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_speed_landing</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_speed_down</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x1f79aed08f</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x1e7a52eb8a</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_speed_y_mul_base_accel</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_speed_y_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_correction_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_length_mul_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_length_mul_min</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_pull_speed_intp_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">back_damage_effective_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">wall_damage_start_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_stop_motion_intp_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_air_stop_motion_intp_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x2f136d6218</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x24417028a1</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x1ef2617d6a</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x255c556cd3</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fix_gravity_accel</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fix_gravity_speed_y_stable</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fix_gravity_accel_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_attack_speed</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_attack_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_escape_speed</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_escape_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_reflect_speed</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_reflect_speed_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_reflect_down_speed_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_reflect_down_speed_mul_damage</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_reflect_d_speed</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_reflect_d_speed_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_reflect_reaction_frame_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_reflect_stop_frame_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_reflect_stop_frame_min</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_reflect_stop_frame_max</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">wall_damage_motion_stop_start_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_reflect_xlu_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_reflect_check_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_reflect_disable_escape_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_reflect_max</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_coll_stop_slidable_length</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dead_up_damage_speed</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x29baab727b</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dead_down_damage_speed</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dead_rebirth_wait_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">rebirth_move_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">rebirth_move_frame_trainer</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">rebirth_move_frame_inkling</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">rebirth_wait_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">rebirth_invincible_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x27768e17f0</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">rebirth_invincible_add_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">loupe_damage_limit</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">loupe_damage</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">loupe_damage_interval</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x26a11a0587</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x25151f93e9</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_knock_back_area_width_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_knock_back_hitstop_frame_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_knock_back_speed_x_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x1e6b5e39f0</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x1a12ca7663</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x2b4b8f1925</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">furafura_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">furafura_recovery_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">furafura_clatter_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_song_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_song_frame_bonus_reaction</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_song_frame_bonus_damage</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_song_frame_bonus_rank</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_song_frame_bonus_handi</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_song_recovery_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_song_clatter_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_song_fall_speed_limit</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_sleep_fall_speed_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_bind_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_bind_frame_bonus_reaction</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_bind_frame_bonus_damage</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_bind_frame_bonus_rank</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_bind_frame_bonus_handi</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_bind_recovery_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_bind_clatter_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">invalid_bind_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">bury_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">bury_frame_bonus_reaction</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">bury_frame_bonus_damage</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">bury_frame_bonus_rank</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">bury_frame_bonus_handi</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">bury_recovery</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">bury_clatter_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">bury_damage_reaction_sub</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">bury_jump_y_speed_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">bury_jump_no_attack_frame_value</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">bury_invalid_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">bury_down_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">bury_physics_invalid_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_ice_frame_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_ice_frame_damage_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ice_damage_continue_frame_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ice_damage_continue_max</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_ice_frame_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_ice_frame_recovery</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_ice_frame_recovery_clatter</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_ice_frame_recovery_damage</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_ice_damage_dec_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_ice_damage_reaction_dec_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_ice_damage_air_brake</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_ice_fall_y_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">add_ice_damage_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ice_damage_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ice_damage_reset_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_ice_jump_stiff_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_ice_invalid_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_ice_reflect_speed_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_ice_reflect_break_speed</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_ice_rot_speed_min</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_ice_rot_speed_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_ice_effect_radius</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_turn_reverse_cont_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x26a5243ff4</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x20a50442e7</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x223d4a2992</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x2747b09dbf</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shouldered_frame_add</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">shouldered_frame_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x188226f196</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x1c1d4e67b6</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">kirby_swallowed_offset_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">kirby_swallowed_offset_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">kirby_swallowed_speed_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">kirby_swallowed_speed_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">kirby_swallowed_comp_dist</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">kirby_swallowedthrown_clatter_recover</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">kirby_swallowedthrown_copy_star_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">kirby_swallowedescape_speed_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">kirby_swallowedescape_speed_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">kirby_swallowedthrown_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_ind_speed_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_ind_speed_min</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_ind_speed_succeed_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_ind_weight_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x1fc3fbf722</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ganon_special_s_reaction_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">ganon_special_s_fall_speed</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ganon_special_s_fall_hold_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ganon_special_s_fall_clatter_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ganon_special_s_fall_clatter_add_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ganon_special_s_fall_clatter_add_frame_up_limit</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ganon_special_s_fall_clatter_add_frame_down_limit</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ganon_special_s_cut_speed_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ganon_special_s_cut_brake_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ganon_special_s_cut_speed_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ganon_special_s_cut_accel_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ganon_special_s_cut_cancel_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">ganon_special_s_passive_trigger_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x2926d3af20</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">mewtwo_thrown_reaction_frame_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">mewtwo_thrown_reaction_frame_max</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_bind_extra_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_bind_extra_frame_bonus_reaction</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_bind_extra_frame_bonus_damage</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_bind_extra_frame_bonus_rank</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_bind_extra_frame_bonus_handi</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_bind_extra_recovery_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_bind_extra_clatter_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x254ef48ec6</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">gamewatch_stock_icon_scale_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x2572f9b19f</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">gamewatch_stock_icon_scale_min</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">bitten_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">bitten_frame_extend_damage_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">bitten_clatter_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">laydown_no_action_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">laydown_no_action_frame_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">laydown_damage_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ike_final_damage_fly_speed</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ike_final_offset_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">diddy_clung_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">diddy_clung_damage_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">diddy_clung_handicap_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">diddy_clung_air_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">diddy_clung_clatter_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dedede_swallowed_offset_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dedede_swallowed_offset_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dedede_swallowed_speed_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dedede_swallowed_speed_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dedede_swallowed_comp_dist</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dedede_swallowedthrown_clatter_recover</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x271637cd82</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x289f33225f</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x28e83412c9</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x2ac7b91111</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dedede_swallowedescape_speed_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dedede_swallowedescape_speed_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dedede_swallowedthrown_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dedede_swallowedthrown_clatter_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x25e72e042c</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x216fd7d6e2</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">palutena_final_blackhole_motion_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">lisire_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">lisire_clatter_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">lisire_clatter_invalid_damage</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">lisire_capture_cut_speed_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">lisire_capture_cut_speed_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">saving_damage_start_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">saving_damage_base_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">saving_damage_frame_lv2</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">saving_damage_frame_lv3</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">saving_damage_air_frame_lv2</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">saving_damage_air_frame_lv3</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">pierce_cut_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">pierce_cut_frame_damage</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">pierce_recovery</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">pierce_clatter_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">pierce_motion_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">rollerink_max_speed_x_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">rollerink_friction</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ridley_s_interpolate_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">ridley_s_base_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">ridley_s_damage_frame_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ridley_s_max_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">ridley_s_min_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">ridley_s_recovery_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">ridley_s_clatter_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x132e4896ce</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ridley_s_capture_cut_speed_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">stabbed_damage_start_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">stabbed_damage_base_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">stabbed_damage_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">stabbed_damage_comp_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">krool_swallowed_offset_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">krool_swallowed_offset_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">krool_swallowed_speed_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">krool_swallowed_speed_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">krool_swallowed_comp_dist</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">capture_fishingrod_cut_dist_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">capture_fishingrod_cut_dist_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">jack_final_finish_stop_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">jack_final_effect_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">jack_final_disable_color_blend_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">jack_final_motion_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">buddy_final_target_motion_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x29a409f389</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">buddy_final_target_scale_scene02</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">buddy_final_target_scale_scene04</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_super_special2_capture_cut_dist_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_super_special2_capture_cut_dist_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_final_motion_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">master_final_target_motion_rate_scene03</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x171c818663</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x1c6b1d2d15</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x1a99c94c70</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">ground_damage_disable_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">ground_speed_inherit_limit</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">wind_air_brake</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_cloud_through_speed</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_fly_cloud_through_out_speed_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ladder_stick_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ladder_cancel_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">no_ladder_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">ladder_speed_u_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ladder_speed_d_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ladder_attack_speed_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ladder_jump_y_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ladder_break_stick_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">ladder_break_stick_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x21cccfef4d</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">swim_dive_speed_x_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">swim_dive_speed_y_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">swim_rise_accel_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">swim_rise_stable_speed_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">swim_accel_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">swim_speed_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">swim_brake</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">swim_jump_charge_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">swim_jump_charge_accel_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">swim_jump_speed_y_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">swim_jump_speed_y_dec_count</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">swim_effect_interval_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">swim_drown_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">swim_drown_frame_dec_damage_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">swim_drown_speed_x_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">swim_drown_out_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">swim_drown_out_accel_y_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">swim_drown_effect_interval_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">fish_capture_cut_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">fish_capture_cut_frame_damage</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">fish_capture_recovery</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">fish_capture_clatter_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">fish_capture_motion_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">drum_cut_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">drum_cut_frame_damage</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">drum_recovery</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">drum_clatter_frame</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">tornado_gravity_accel</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">tornado_gravity_stable_speed</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">pipe_scale</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">pipe_scale_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_dead_effect_scale</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x2538ad968e</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x26e4e3ac52</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x1efb1634f6</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x21564fe2e4</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x216a42ddbd</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x25e456e000</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x25d85bdf59</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x218c76be24</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x21b07b817d</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x259f3f6fa2</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x25a33250fb</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x20ba6c8d91</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x236c01592b</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x25c98d4952</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x266f8ee56b</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_lr_dead_wait_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x2050ea1791</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_wall_break_speed_x_min</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x226a745dba</span>: <span class="ident">u64</span>,
+    <span class="kw">pub</span> <span class="ident">x1b73ccfd57</span>: <span class="ident">u64</span>,
+    <span class="kw">pub</span> <span class="ident">x22c3ebdbcd</span>: <span class="ident">u64</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_wall_init_speed</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_wall_accel</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_wall_limit_speed</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_wall_motion_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_wall_accel_after</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_wall_limit_speed_after</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_performance_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_slow_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_slow_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_zoom_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_zoom_in_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_camera_offset_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_camera_offset_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_critical_1_on_1</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_finish_hit_stop_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_finish_zoom_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_finish_camera_offset_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_finish_camera_offset_y</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_other_stop_frame_1_on_1</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_shake_frame_1_on_1</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x1deeba57d3</span>: <span class="ident">u64</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_other_stop_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_shake_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_shake_kind</span>: <span class="ident">u64</span>,
+    <span class="kw">pub</span> <span class="ident">dolly_stage_shake_frame_after_stop</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x2138bce73b</span>: <span class="ident">u64</span>,
+    <span class="kw">pub</span> <span class="ident">x299d40d0e4</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x2432db3f21</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x2ab1f047fe</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x2280060bab</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x19a0a89335</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x1b6ba65a59</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x1b0a9b5aef</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x1dcffb7a42</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x1de596c2e9</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x20104fc69e</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x299c29178b</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">team_attack_shot_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">team_attack_heal_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">charge_final_add_gauge_by_time</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">charge_final_add_gauge_by_attack</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">charge_final_add_gauge_by_damage_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">charge_final_add_gauge_by_attack_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">charge_final_add_gauge_by_time_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">charge_final_gauge_decrease_start_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">charge_final_remove_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x2873df4aed</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> [<span class="ident">f32</span>; <span class="number">7</span>],
+    <span class="ident">pad_04</span>: [<span class="ident">u64</span>; <span class="number">2</span>],
+    <span class="kw">pub</span> <span class="ident">x2d073b8b11</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x2d2bae85ee</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x2b0de64f73</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x223f5d53c2</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x2203506c9b</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x232ccb683f</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x2212ae242a</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x222ea31b73</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x3346e488ff</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x337ae9b7a6</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x33fe2103c5</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x33c22c3c9c</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">handi_boost_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">handi_boost_base_player_num</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">handi_boost_correct_player_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">handi_boost_correct_player_min</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">handi_boost_start_time</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">handi_boost_each_time</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">handi_boost_correct_time_add</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">handi_boost_correct_time_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">handi_boost_attack_reaction_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">handi_boost_attack_damage_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">handi_boost_defense_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">handi_boost_min</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">handi_boost_attack_reaction_mul_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">handi_boost_attack_damage_mul_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">handi_boost_defense_mul_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x3801d6748a</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">ground_speed_x_limit</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">common_air_speed_x_limit</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">air_speed_up_limit</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">air_speed_down_limit</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">power_up_attack_limit</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">power_up_point_max</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">power_up_point_min</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">squat_b_stick_x_min</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">squat_b_stick_x_max</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">fall_stick_x</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">cliff_climb_stick</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x25b62d6370</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dead_down_damage_check_bottom</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">bitten_flick_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">shield_size</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">throw_invincible_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_motion_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">passive_wall_xlu_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">x162f182153</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">capture_landing_offset</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">damage_reaction_fix_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">escape_air_brake</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">bury_damage_reaction_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">x21624f7f0f</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">smash_hold_reaction_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">run_brake_stop_speed</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">walk_accel_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">run_accel_mul</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">run_brake_dash_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">run_brake_attack_escape_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">dash_s4_frame_easy</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">dash_s4_frame_hard</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_hi4_flick_y_easy</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_hi4_flick_y_hard</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_lw4_flick_y_easy</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">attack_lw4_flick_y_hard</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">jostle_data</span>: <span class="ident">JostleData</span>,
+    <span class="kw">pub</span> <span class="ident">escape_penalty_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">escape_penalty_max_count</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">escape_penalty_recovry_frame</span>: <span class="ident">i32</span>,
+    <span class="kw">pub</span> <span class="ident">escape_penalty_motion_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">escape_f_penalty_motion_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">escape_b_penalty_motion_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">escape_air_penalty_motion_rate</span>: <span class="ident">f32</span>,
+    <span class="kw">pub</span> <span class="ident">invalid_paralyze_frame</span>: <span class="ident">f32</span>,
+}
+
+<span class="kw">impl</span> <span class="kw">super</span>::<span class="ident">Filepath</span> <span class="kw">for</span> <span class="ident">CommonParams</span> {
+    <span class="kw">fn</span> <span class="ident">filepath</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
+        <span class="string">&quot;fighter/common/param/common.prc&quot;</span>
+    }
+}
+</pre></div>
+</section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "smash";</script><script src="../../../aliases.js"></script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

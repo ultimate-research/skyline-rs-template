@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["clear_rot_speed",""],["clear_speed",""],["enable",""],["get_rotation",""],["get_speed",""],["get_speed3f",""],["get_speed_x",""],["get_speed_y",""],["is_enable",""],["mul_accel",""],["mul_speed",""],["off_consider_ground_friction",""],["on_consider_ground_friction",""],["reflect_accel",""],["reflect_speed",""],["reset_energy",""],["unable",""]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["CHARGE_FINAL_1",""],["CHARGE_FINAL_2",""],["GET_THE_SMASH_BALL_1",""],["GET_THE_SMASH_BALL_2",""],["NONE",""],["START_FINAL",""]]});

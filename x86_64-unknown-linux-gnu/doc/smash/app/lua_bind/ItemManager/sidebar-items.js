@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["find_active_item_from_area_id",""],["find_active_item_from_id",""],["get_active_item",""],["get_num_of_active_item",""],["get_num_of_active_item_all",""],["get_num_of_ownered_item",""],["is_change_fighter_restart_position",""],["remove_item_from_id",""]]});

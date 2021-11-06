@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["add_ink",""],["get_ink_color",""],["ink",""],["ink_max",""],["reset_ink",""],["set_ink",""],["set_special_paint",""]]});

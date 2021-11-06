@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["hit_team_no",""],["hit_team_second_no",""],["metamon_owner_fighter_entry_id",""],["set_hit_team",""],["set_hit_team_second",""],["set_team",""],["set_team_owner_id",""],["set_team_second",""],["team_no",""],["team_owner_id",""],["team_second_no",""]]});

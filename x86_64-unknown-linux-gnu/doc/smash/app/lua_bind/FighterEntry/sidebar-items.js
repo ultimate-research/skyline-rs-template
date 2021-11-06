@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["current_fighter_id",""],["eat_item",""],["fighter_num",""],["get_fighter_id",""],["heal",""]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["ApplicationErrorArg_ApplicationErrorArg",""],["ApplicationErrorArg_ApplicationErrorArg1",""],["ApplicationErrorArg_SetApplicationErrorCodeNumber",""],["ApplicationErrorArg_SetDialogMessage",""],["ApplicationErrorArg_SetFullScreenMessage",""],["MakeErrorCode",""],["ShowApplicationError",""]],"struct":[["ApplicationErrorArg",""]]});

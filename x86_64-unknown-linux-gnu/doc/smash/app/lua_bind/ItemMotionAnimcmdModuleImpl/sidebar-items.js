@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["set_fix_rate",""]]});

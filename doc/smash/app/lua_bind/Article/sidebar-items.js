@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["get_battle_object_id",""]]});

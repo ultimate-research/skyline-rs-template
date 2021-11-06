@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["is_active_find_battle_object",""]]});

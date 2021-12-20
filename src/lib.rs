@@ -1,30 +1,14 @@
+#![feature(concat_idents)]
 #![feature(proc_macro_hygiene)]
+#![feature(asm)]
 
-use skyline::{hook, install_hook};
+mod mario;
+mod falco;
+mod custom;
 
-extern "C" fn test() -> u32 {
-    2
-}
-
-#[hook(replace = test)]
-fn test_replacement() -> u32 {
-
-    let original_test = original!();
-
-    let val = original_test();
-
-    println!("[override] original value: {}", val); // 2
-
-    val + 1
-}
-
-#[skyline::main(name = "skyline_rs_template")]
+#[skyline::main(name = "smashline_test")]
 pub fn main() {
-    println!("Hello from Skyline Rust Plugin!");
-
-    install_hook!(test_replacement);
-
-    let x = test();
-
-    println!("[main] test returned: {}", x); // 3
+    mario::install();
+    falco::install();
+    custom::install();
 }

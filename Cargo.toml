@@ -20,5 +20,7 @@ smashline = { git = "https://github.com/blu-dev/smashline.git", branch = "develo
 panic = "abort"
 
 [profile.release]
+opt-level = 'z'
 panic = "abort"
 lto = true
+codegen-units = 1

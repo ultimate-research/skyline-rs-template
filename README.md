@@ -1,6 +1,6 @@
-# skyline-rs-template
+# skyline-acmd-template
 
-A template for writing skyline plugins for modding switch games using Rust and skyline-rs.
+A template for writing Skyline ACMD plugins for modding Super Smash Bros. Ultimate using Rust and skyline-rs.
 
 [Documentation for skyline-rs](https://ultimate-research.github.io/skyline-rs-template/doc/skyline/index.html)
 
@@ -31,23 +31,40 @@ cargo skyline new [your_plugin_name]
 
 Simply run `Remote Containers: Reopen in Container` in the Command Palette. 
 
-## Creating and building a plugin
+## Creating and Building a Plugin
 
 To compile your plugin use the following command in the root of the project (beside the `Cargo.toml` file):
+
+    a. Installing via FTP connection
+
+    The suggested workflow is installing and reading logs via FTP, using a sysmodule like [sys-ftpd-light](https://github.com/cathery/sys-ftpd-light/releases).
+
+    Find your Switch's IP and run `cargo skyline set-ip [Your Switch's IP]`.
+
+    When you'd like to test a plugin, you can try `cargo skyline run`, which installs the plugin automatically to the correct folder on your Switch, as well as Skyline and dependency plugins. The command will then hang while waiting for logs from the Switch upon booting Smash. You should be able to see any logs you printed in Rust code using `println!`!
+
+    `cargo skyline run` is shorthand for `cargo skyline install`, which just installs the plugin without waiting for logs + `cargo skyline listen`, which only waits for logs from your system.
+
+    To view installed plugins, you can run `cargo skyline list`.
+
+    b. Installing manually
+    ```sh
+    cargo skyline build
+    ```
+    Your resulting plugin will be the `.nro` found in the folder
+    ```
+    [plugin name]/target/aarch64-skyline-switch
+    ```
+    To install (you must already have skyline installed on your switch), put the plugin on your SD at:
+    ```
+    sd:/atmosphere/contents/01006A800016E000/romfs/skyline/plugins
+    ```
+
+`cargo skyline` can also automate some of this process via FTP. If you have an FTP client on your Switch, you can run:
 ```sh
-cargo skyline build
-```
-Your resulting plugin will be the `.nro` found in the folder
-```
-[plugin name]/target/aarch64-skyline-switch
-```
-To install (you must already have skyline installed on your switch), put the plugin on your SD at:
-```
-sd:/atmosphere/contents/[title id]/romfs/skyline/plugins
-```
-So, for example, smash plugins go in the following folder:
-```
-sd:/atmosphere/contents/01006A800016E000/romfs/skyline/plugins
+cargo skyline set-ip [Switch IP]
+# install to the correct plugin folder on the Switch and listen for logs
+cargo skyline run 
 ```
 
 `cargo skyline` can also automate some of this process via FTP. If you have an FTP client on your Switch, you can run:
@@ -87,10 +104,16 @@ For updating your dependencies such as skyline-rs:
 cargo update
 ```
 
+For updating cargo skyline:
+
+```
+cargo skyline self-update
+```
+
 For updating your version of `rust-std-skyline-squashed`:
 
 ```
 # From inside your plugins folder
 
-cargo skyline self-update
+cargo skyline update-std
 ```

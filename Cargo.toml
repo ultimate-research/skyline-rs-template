@@ -1,7 +1,7 @@
 [package]
 name = "skyline_rs_template"
 version = "0.1.0"
-authors = ["jam1garner <jam1.mcleod@hotmail.com>"]
+authors = []
 edition = "2018"
 
 [package.metadata.skyline]
@@ -12,7 +12,6 @@ crate-type = ["cdylib"]
 
 [dependencies]
 skyline = { git = "https://github.com/ultimate-research/skyline-rs.git" }
-skyline_smash = { git = "https://github.com/ultimate-research/skyline-smash.git" }
 
 [profile.dev]
 panic = "abort"

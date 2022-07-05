@@ -1,6 +1,5 @@
 #![feature(concat_idents)]
 #![feature(proc_macro_hygiene)]
-#![feature(asm)]
 
 mod mario;
 mod falco;

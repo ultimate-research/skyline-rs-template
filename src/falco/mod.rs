@@ -1,7 +1,11 @@
-use smash::hash40;
-use smash::lib::lua_const::*;
-use smash::lua2cpp::L2CAgentBase;
-use smashline::*;
+use {
+    smash::{
+        lua2cpp::*,
+        hash40,
+        lib::lua_const::*,
+    },
+    smashline::*
+};
 
 #[acmd_script( agent = "falco_blaster_bullet", script = "game_fly", category = ACMD_GAME )]
 unsafe fn falco_laser(fighter : &mut L2CAgentBase) {

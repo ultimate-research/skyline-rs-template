@@ -2,7 +2,6 @@
     "rust-analyzer.checkOnSave.overrideCommand": [
         "cargo",
         "+skyline-v3",
-        "clippy",
         "--message-format=json",
         "--workspace",
         "--quiet"
@@ -10,7 +9,6 @@
     "rust-analyzer.cargo.buildScripts.overrideCommand": [
         "cargo",
         "+skyline-v3",
-        "clippy",
         "--message-format=json",
         "--workspace",
         "--quiet"

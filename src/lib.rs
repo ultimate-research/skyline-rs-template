@@ -3,8 +3,7 @@
     proc_macro_hygiene
 )]
 #![allow(
-    unused_macros,
-    clippy::borrow_interior_mutable_const
+    unused_macros
 )]
 
 mod mario;

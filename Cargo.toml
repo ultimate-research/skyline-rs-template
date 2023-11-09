@@ -14,7 +14,7 @@ crate-type = ["cdylib"]
 skyline = "0.2.1"
 skyline_smash = { git = "https://github.com/blu-dev/skyline-smash.git", features = ["weak_l2cvalue"] }
 smash_script = { git = "https://github.com/blu-dev/smash-script.git", branch = "development" }
-smashline = { git = "https://github.com/blu-dev/smashline.git", branch = "development" }
+smashline = { git = "https://github.com/hdr-development/smashline.git" }
 smash_singletons = { git = "https://github.com/WuBoytH/smash_singletons.git" }
 
 [profile.dev]
